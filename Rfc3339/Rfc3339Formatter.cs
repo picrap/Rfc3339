@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace Rfc3339;
 
@@ -23,7 +24,7 @@ public class Rfc3339Formatter : IFormatProvider, ICustomFormatter
         return null;
     }
 
-    public static string Format(DateTime dateTime, string? format)
+    public static string Format(DateTime dateTime, string? format = null)
     {
         return Format(dateTime, dateTime.Kind switch
         {
@@ -33,7 +34,7 @@ public class Rfc3339Formatter : IFormatProvider, ICustomFormatter
         }, format);
     }
 
-    public static string Format(DateTimeOffset dateTime, string? format)
+    public static string Format(DateTimeOffset dateTime, string? format = null)
     {
         return Format(dateTime.DateTime, dateTime.Offset, format);
     }
