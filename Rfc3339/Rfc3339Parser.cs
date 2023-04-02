@@ -23,7 +23,7 @@ public class Rfc3339Parser
     }
 
     private static readonly Regex DateEx = new(
-        @"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})([T\ ](?<hour>\d{2})\:(?<minute>\d{2})(\:(?<second>\d{2}(\.\d{1,9})?))?)?$",
+        @"^(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})([Tt\ ](?<hour>\d{1,2})\:(?<minute>\d{1,2})(\:(?<second>\d{1,2}(\.\d{1,9})?))?)?((?<offset_zero>[Zz])|((?<offset_sign>\+|\-)(?<offset_hour>\d{1,2})(\:(?<offset_minute>\d{1,2}))?))?$",
         RegexOptions.None, TimeSpan.FromSeconds(2));
 
     public static bool TryParse(string? literal, out Rfc3339DateTime dateTime)
@@ -48,6 +48,15 @@ public class Rfc3339Parser
             var resultTime = new TimeOnly(GetInt(dateMatch, "hour"), GetInt(dateMatch, "minute"));
             resultTime = resultTime.Add(TimeSpan.FromTicks((long)(GetDecimal(dateMatch, "second") * 10_000_000)));
             dateTime.Time = resultTime;
+        }
+        if (HasGroup(dateMatch, "offset_zero"))
+            dateTime.Offset = TimeSpan.Zero;
+        else if (HasGroup(dateMatch, "offset_sign"))
+        {
+            var offset = new TimeSpan(GetInt(dateMatch, "offset_hour"), GetInt(dateMatch, "offset_minute"), 0);
+            if (dateMatch.Groups["offset_sign"].Value == "-")
+                offset = -offset;
+            dateTime.Offset = offset;
         }
         return true;
     }
