@@ -19,6 +19,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Include="..\Icon\Rfc3339.png" Link="Rfc3339.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="..\README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

@@ -30,7 +30,8 @@ public class Rfc3339Formatter : IFormatProvider, ICustomFormatter
         {
             DateTimeKind.Unspecified => null,
             DateTimeKind.Local => DateTimeOffset.Now.Offset,
-            DateTimeKind.Utc => TimeSpan.Zero
+            DateTimeKind.Utc => TimeSpan.Zero,
+            _ => null
         }, format);
     }
 
