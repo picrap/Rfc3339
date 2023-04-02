@@ -5,11 +5,11 @@
     <ImplicitUsings>disable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <Title>RCF 3339</Title>
+    <Title>RFC 3339</Title>
     <Description>A RFC 3339 formatter/parser for DateTime and DateTimeOffset</Description>
     <PackageProjectUrl>https://github.com/picrap/Rfc3339</PackageProjectUrl>
     <PackageIcon>Rfc3339.png</PackageIcon>
-    <Version>1.0</Version>
+    <Version>1.0.1</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/picrap/Rfc3339.git</RepositoryUrl>
     <PackageTags>RFC3339;formatter;parser</PackageTags>
