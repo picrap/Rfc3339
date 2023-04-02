@@ -5,13 +5,20 @@ using Rfc3339;
 namespace Rfc3339Test;
 
 [TestFixture]
-public class ToStringTests
+public class FormatTests
 {
     [Test]
     public void SimpleDateTimeTest()
     {
         var s = Rfc3339Formatter.Format(new DateTime(2000, 12, 02, 3, 4, 5, DateTimeKind.Utc), null);
         Assert.AreEqual("2000-12-02T03:04:05Z", s);
+    }
+
+    [Test]
+    public void UnspecifiedSimpleDateTimeTest()
+    {
+        var s = Rfc3339Formatter.Format(new DateTime(2000, 12, 02, 3, 4, 5, DateTimeKind.Unspecified), null);
+        Assert.AreEqual("2000-12-02T03:04:05", s);
     }
 
     [Test]
@@ -36,5 +43,13 @@ public class ToStringTests
         var ts = TimeSpan.FromTicks(3);
         var s = Rfc3339Formatter.Format(new DateTime(2000, 12, 02, 3, 4, 5, DateTimeKind.Utc) + ts, null);
         Assert.AreEqual("2000-12-02T03:04:05.000000300Z", s);
+    }
+
+    [Test]
+    public void NegativeTimeZoneTest()
+    {
+        var dateTimeOffset = new DateTimeOffset(2000, 12, 02, 3, 4, 5, -TimeSpan.FromHours(10));
+        var s = Rfc3339Formatter.Format(dateTimeOffset, null);
+        Assert.AreEqual("2000-12-02T03:04:05-10:00", s);
     }
 }

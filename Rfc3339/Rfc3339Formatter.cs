@@ -25,7 +25,12 @@ public class Rfc3339Formatter : IFormatProvider, ICustomFormatter
 
     public static string Format(DateTime dateTime, string? format)
     {
-        return Format(dateTime, DateTimeOffset.Now.Offset, format);
+        return Format(dateTime, dateTime.Kind switch
+        {
+            DateTimeKind.Unspecified => null,
+            DateTimeKind.Local => DateTimeOffset.Now.Offset,
+            DateTimeKind.Utc => TimeSpan.Zero
+        }, format);
     }
 
     public static string Format(DateTimeOffset dateTime, string? format)
@@ -33,7 +38,7 @@ public class Rfc3339Formatter : IFormatProvider, ICustomFormatter
         return Format(dateTime.DateTime, dateTime.Offset, format);
     }
 
-    private static string Format(DateTime dateTime, TimeSpan offset, string? format = null)
+    private static string Format(DateTime dateTime, TimeSpan? offset, string? format = null)
     {
         var builder = new StringBuilder();
         builder.AppendFormat("{0:yyyy-MM-ddThh:mm:ss}", dateTime);
@@ -51,23 +56,19 @@ public class Rfc3339Formatter : IFormatProvider, ICustomFormatter
             }
         }
 
-        switch (dateTime.Kind)
-        {
-            case DateTimeKind.Unspecified:
-                break;
-            case DateTimeKind.Utc:
-                builder.Append("Z");
-                break;
-            case DateTimeKind.Local:
-                if (offset < TimeSpan.Zero)
-                    builder.AppendFormat("-{0:hh:mm}", -offset);
-                else
-                    builder.AppendFormat("+{0:hh:mm}", offset);
-                break;
-            default:
-                throw new ArgumentOutOfRangeException();
-        }
+        if (offset.HasValue)
+            AppendTimeZone(builder, offset.Value);
 
         return builder.ToString();
+    }
+
+    private static void AppendTimeZone(StringBuilder builder, TimeSpan offset)
+    {
+        if (offset < TimeSpan.Zero)
+            builder.AppendFormat("-{0:hh\\:mm}", -offset);
+        else if (offset > TimeSpan.Zero)
+            builder.AppendFormat("+{0:hh\\:mm}", offset);
+        else
+            builder.Append("Z");
     }
 }
