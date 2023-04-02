@@ -20,6 +20,19 @@ public class Rfc3339Parser
                 return new DateTimeOffset(Date.ToDateTime(time), offset);
             }
         }
+
+        public DateTime DateTime
+        {
+            get
+            {
+                var time = Time ?? TimeOnly.MinValue;
+                if (!Offset.HasValue)
+                    return Date.ToDateTime(time, DateTimeKind.Unspecified);
+                if (Offset == TimeSpan.Zero)
+                    return Date.ToDateTime(time, DateTimeKind.Utc);
+                return Date.ToDateTime(time, DateTimeKind.Unspecified);
+            }
+        }
     }
 
     private static readonly Regex DateEx = new(
@@ -81,5 +94,17 @@ public class Rfc3339Parser
         if (value.StartsWith("."))
             value = "0" + value;
         return decimal.Parse(value, CultureInfo.InvariantCulture);
+    }
+
+    public static bool TryParse(string? literal, out DateTimeOffset dateTime)
+    {
+        if (!TryParse(literal, out Rfc3339DateTime rfc3339DateTime))
+        {
+            dateTime = default;
+            return false;
+        }
+
+        dateTime = rfc3339DateTime.DateTimeOffset;
+        return true;
     }
 }
