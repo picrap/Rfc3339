@@ -8,7 +8,7 @@
     <Title>RCF 3339</Title>
     <Description>A RFC 3339 formatter/parser for DateTime and DateTimeOffset</Description>
     <PackageProjectUrl>https://github.com/picrap/Rfc3339</PackageProjectUrl>
-    <PackageIcon>..\Icon\Rfc3339.png</PackageIcon>
+    <PackageIcon>Rfc3339.png</PackageIcon>
     <Version>1.0</Version>
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <RepositoryUrl>https://github.com/picrap/Rfc3339.git</RepositoryUrl>
