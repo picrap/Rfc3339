@@ -3,13 +3,15 @@ using Rfc3339;
 
 namespace Rfc3339Test;
 
+#pragma warning disable NUnit2005
+
 [TestFixture]
 public class ParseTests
 {
     [Test]
     public void SimpleDateTest()
     {
-        var ok = Rfc3339Parser.TryParse("2023-04-02", out var d);
+        var ok = Rfc3339Parser.TryParse("2023-04-02", out Rfc3339DateTime d);
         Assert.IsTrue(ok);
         Assert.AreEqual(2023, d.Date.Year);
         Assert.AreEqual(4, d.Date.Month);
@@ -23,7 +25,7 @@ public class ParseTests
     [TestCase("T")]
     public void SimpleDateTimeTest(string separator)
     {
-        var ok = Rfc3339Parser.TryParse($"2023-04-02{separator}14:06:49", out var d);
+        var ok = Rfc3339Parser.TryParse($"2023-04-02{separator}14:06:49", out Rfc3339DateTime d);
         Assert.IsTrue(ok);
         Assert.AreEqual(2023, d.Date.Year);
         Assert.AreEqual(4, d.Date.Month);
@@ -40,7 +42,7 @@ public class ParseTests
     [TestCase("T")]
     public void SimpleDateTimeFractionTest(string separator)
     {
-        var ok = Rfc3339Parser.TryParse($"2023-04-02{separator}14:06:49.3", out var d);
+        var ok = Rfc3339Parser.TryParse($"2023-04-02{separator}14:06:49.3", out Rfc3339DateTime d);
         Assert.IsTrue(ok);
         Assert.AreEqual(2023, d.Date.Year);
         Assert.AreEqual(4, d.Date.Month);
@@ -55,7 +57,7 @@ public class ParseTests
     [Test]
     public void SimpleDateTimeOffsetTest()
     {
-        var ok = Rfc3339Parser.TryParse($"2023-04-02T14:06:00+01:30", out var d);
+        var ok = Rfc3339Parser.TryParse($"2023-04-02T14:06:00+01:30", out Rfc3339DateTime d);
         Assert.IsTrue(ok);
         Assert.AreEqual(2023, d.Date.Year);
         Assert.AreEqual(4, d.Date.Month);
@@ -71,7 +73,7 @@ public class ParseTests
     [Test]
     public void SimpleDateTimeNegativeOffsetTest()
     {
-        var ok = Rfc3339Parser.TryParse($"2023-04-02T14:06:00-01:30", out var d);
+        var ok = Rfc3339Parser.TryParse($"2023-04-02T14:06:00-01:30", out Rfc3339DateTime d);
         Assert.IsTrue(ok);
         Assert.AreEqual(2023, d.Date.Year);
         Assert.AreEqual(4, d.Date.Month);
@@ -87,7 +89,7 @@ public class ParseTests
     [Test]
     public void SimpleDateTimeZOffsetTest()
     {
-        var ok = Rfc3339Parser.TryParse($"2023-04-02T14:06:00Z", out var d);
+        var ok = Rfc3339Parser.TryParse($"2023-04-02T14:06:00Z", out Rfc3339DateTime d);
         Assert.IsTrue(ok);
         Assert.AreEqual(2023, d.Date.Year);
         Assert.AreEqual(4, d.Date.Month);
@@ -103,7 +105,7 @@ public class ParseTests
     [Test]
     public void SimpleDateTimeZeroOffsetTest()
     {
-        var ok = Rfc3339Parser.TryParse($"2023-04-02T14:06:00+00:00", out var d);
+        var ok = Rfc3339Parser.TryParse($"2023-04-02T14:06:00+00:00", out Rfc3339DateTime d);
         Assert.IsTrue(ok);
         Assert.AreEqual(2023, d.Date.Year);
         Assert.AreEqual(4, d.Date.Month);
