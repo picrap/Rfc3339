@@ -4,6 +4,8 @@ using Rfc3339;
 
 namespace Rfc3339Test;
 
+#pragma warning disable NUnit2005
+
 [TestFixture]
 public class FormatTests
 {
